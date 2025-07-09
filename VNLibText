@@ -1,0 +1,137 @@
+"""
+
+("0100111001","Hello, World!//My Name is Katie!\nWhat is your name?","TEXT")
+
+becomes
+
+Hello, World!
+
+My Name is Katie
+What is your name?
+
+"""
+
+
+" ENUMERATORS "
+
+import keyboard
+from enum import Enum
+import time
+
+" Def Keys "
+
+class KeyType(Enum):
+    SPACE = "Space"
+    ESC = "Esc"
+    C1 = "1"
+    C2 = "2"
+
+SPACE = KeyType.SPACE
+ESC = KeyType.ESC
+C1 = KeyType.C1
+C2 = KeyType.C2
+
+" Def Type "
+
+class FieldType(Enum):
+    TEXT = "Text"
+    NUMBER = "Number"
+    ROAM = "Roam"
+
+TEXT = FieldType.TEXT
+NUMBER = FieldType.NUMBER
+ROAM = FieldType.ROAM
+
+" FUNCTIONS "
+
+def Keys():
+    while True:
+        event = keyboard.read_event()
+        if event.event_type == keyboard.KEY_DOWN:
+            if event.name == 'space':
+                return SPACE
+            elif event.name == 'esc':
+                return ESC
+            elif event.name == '1':
+                return C1
+            elif event.name == '2':
+                return C2
+
+def Breakdown(TextToBreakdown, BreakdownKey):
+    Text = TextToBreakdown
+    Key = BreakdownKey
+
+    # First, split the text by the BreakdownKey, each part is a passage
+    passages = Text.split(Key)
+    
+    # For each passage, replace literal '\n' (backslash + n) with actual newline
+    passages = [p.replace("\\n", "\n").strip() for p in passages if p.strip()]
+    
+    return passages
+
+def KeywisePrint(Text, Delay):
+    Lines = Text.split('\n')  # Split the text into separate lines
+    for i, line in enumerate(Lines):
+        Line = ""
+        for char in line:
+            Line += char
+            # Clear the line and overwrite it with the new content
+            print(f"\r{Line}", end="", flush=True)
+            time.sleep(Delay)
+        print("")
+        # After finishing a line, move to the next line (without overwriting)
+        if i < len(Lines) - 1:  # No need to print a newline on the last line
+            print("\r" + " " * len(Line), end="", flush=True)  # Clear line
+            time.sleep(Delay)
+
+    print()  # Ensure final newline at the end
+
+def Read(Text, Key, Next, Delay):
+    Passages = Breakdown(Text, Key)
+    i = 0
+    Len = len(Passages)
+    key = ""
+    while True:
+        if i != 0:
+            key = Keys()
+        if (key == Next) or (i == 0):
+            key = ""
+            KeywisePrint(Passages[i], Delay)
+            i += 1
+        if i == Len:
+            break
+
+def StoryRead(Story, Path):
+    pass
+
+Read("Hello, World!//My Name is Katie!\nWhat is your name?","//",SPACE, 0.01)
+print("\n")
+
+"""
+
+Story = [
+    ( Path, Text, Type, (Inputs), (Conditions) )
+    ]
+
+"""
+
+Story = [
+    ( "", "1: New Game\n2: Load Game\nEsc: Exit", NUMBER, (1, 2, ESC),),
+    ( "", )
+    ]
+
+Path = ""
+
+
+
+"""
+"""
+
+print("\nPress ''ESC'' to exit")
+
+key=Keys()
+if key == ESC:
+    key = ""
+    quit()
+
+
