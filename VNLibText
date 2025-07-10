@@ -11,12 +11,11 @@ What is your name?
 
 """
 
-
-" ENUMERATORS "
-
 import keyboard
 from enum import Enum
 import time
+
+" ENUMERATORS "
 
 " Def Keys "
 
@@ -41,6 +40,27 @@ class FieldType(Enum):
 TEXT = FieldType.TEXT
 NUMBER = FieldType.NUMBER
 ROAM = FieldType.ROAM
+
+" Def Menu "
+
+class MenuType(Enum):
+    WINDOW = "Window"
+    TITLE = "Title"
+    PAUSE = "Pause"
+    SETTINGS = "Settings"
+    SAVES = "Saves"
+    SCENE = "Scene"
+
+WINDOW = MenuType.WINDOW
+TITLE = MenuType.TITLE
+PAUSE = MenuType.PAUSE
+SETTINGS = MenuType.SETTINGS
+SAVES = MenuType.SAVES
+SCENE = MenuType.SCENE
+
+
+
+" CLASSES "
 
 " FUNCTIONS "
 
